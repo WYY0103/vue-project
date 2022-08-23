@@ -5,12 +5,15 @@ import router from '@/router';
 import store from '@/store';
 
 
+
 Vue.prototype.$store = store
 
 // 三级联动的组件  全局组件
 import TypeNav from '@/components/TypeNav';
 // 参数：全局组件的名字，哪一个组件
-Vue.component(TypeNav.name,TypeNav);
+Vue.component(TypeNav.name, TypeNav);
+
+import '@/mock/mockserve';
 
 
 // vue 挂载app
