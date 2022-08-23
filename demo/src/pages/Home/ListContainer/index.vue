@@ -3,7 +3,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" ref="mySwiper">
           <div class="swiper-wrapper">
             <!-- 动态展示轮播图 -->
             <div
@@ -122,7 +122,7 @@ export default {
     bannerList: {
       handler(newValue, oldValue) {
         this.$nextTick(() => {
-          var mySwiper = new Swiper(".swiper-container", {
+          var mySwiper = new Swiper(this.$refs.mySwiper, {
             loop: true, // 循环模式选项
 
             // 如果需要分页器
