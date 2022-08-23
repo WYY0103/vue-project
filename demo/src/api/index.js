@@ -13,3 +13,10 @@ export const reqGetBannerList = () => mockRequests.get('/banner');
 // home 中floor的接口
 export const reqGetFloorList = () => mockRequests.get('/floor');
 
+// 获取搜索模块数据接口
+// 带参数  发请求的时候需要传递参数  至少是{}
+export const reqGetSearchInfo = (params) => requests({
+    url: "/list",
+    method: "post",
+    data:params
+})
