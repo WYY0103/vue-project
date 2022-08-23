@@ -16,6 +16,9 @@ Vue.component(TypeNav.name, TypeNav);
 import '@/mock/mockServe';
 // 引入swiper样式
 import "swiper/css/swiper.css";
+import Carousel from '@/components/Carousel';
+Vue.component(Carousel.name, Carousel);
+
 
 
 

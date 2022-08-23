@@ -31,23 +31,7 @@
 
             <!-- 轮播图 -->
             <div class="floorBanner">
-              <div class="swiper-container" ref="floor1Swiper">
-                <div class="swiper-wrapper">
-                  <div
-                    class="swiper-slide"
-                    v-for="(carousel, index) in list.carouselList"
-                    :key="carousel.id"
-                  >
-                    <img :src="carousel.imgUrl" />
-                  </div>
-                </div>
-                <!-- 如果需要分页器 -->
-                <div class="swiper-pagination"></div>
-
-                <!-- 如果需要导航按钮 -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-              </div>
+              <Carousel :list="list.carouselList"/>             
             </div>
 
             <div class="split">
@@ -61,7 +45,7 @@
             </div>
 
             <div class="split center">
-              <img :src="list.bigImg"/>
+              <img :src="list.bigImg" />
             </div>
 
             <div class="split">
@@ -81,29 +65,30 @@
 </template>
 
 <script>
-import Swiper from "swiper";
+
 export default {
   name: "",
   props: ["list"],
   mounted() {
     // 第一次轮播图是在mounted中发送请求  要等数据回来才可以获取到请求后的结构
     // 而这次的轮播图无需再mounted中发送请求
-    var mySwiper = new Swiper(this.$refs.floor1Swiper, {
-      loop: true, // 循环模式选项
+    // var mySwiper = new Swiper(this.$refs.floorSwiper, {
+    //   loop: true, // 循环模式选项
 
-      // 如果需要分页器
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
+    //   // 如果需要分页器
+    //   pagination: {
+    //     el: ".swiper-pagination",
+    //     clickable: true,
+    //   },
 
-      // 如果需要前进后退按钮
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-    });
+    //   // 如果需要前进后退按钮
+    //   navigation: {
+    //     nextEl: ".swiper-button-next",
+    //     prevEl: ".swiper-button-prev",
+    //   },
+    // });
   },
+  
 };
 </script>
 
