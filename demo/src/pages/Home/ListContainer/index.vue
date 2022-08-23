@@ -5,8 +5,13 @@
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
+            <!-- 动态展示轮播图 -->
+            <div
+              class="swiper-slide"
+              v-for="(carousel, index) in bannerList"
+              :key="carousel.id"
+            >
+              <img :src="carousel.imgUrl" />
             </div>
           </div>
           <!-- 如果需要分页器 -->
@@ -17,6 +22,7 @@
           <div class="swiper-button-next"></div>
         </div>
       </div>
+
       <div class="right">
         <div class="news">
           <h4>
@@ -32,6 +38,7 @@
             <li><span class="bold">[特惠]</span>备战开学季 全民半价购数码</li>
           </ul>
         </div>
+
         <ul class="lifeservices">
           <li class="life-item">
             <i class="list-item"></i>
@@ -92,17 +99,47 @@
 
 <script>
 import { mapState } from "vuex";
+import Swiper from "swiper";
+
 export default {
   name: "",
   mounted() {
     this.$store.dispatch("getBannerList");
+    // new Swiper 初始化实例的时候放在挂载是不对的
+    // 因为挂载后数据的变化并没有显示出来
+    // 此时数据并没有在页面结构上
+    // swiper必须在已有页面结构后才可以new
   },
   computed: {
     ...mapState({
       bannerList: (state) => {
         return state.home.bannerList;
-      }
+      },
     }),
+  },
+  watch: {
+    // 采用对象的写法  里面要有handler
+    bannerList: {
+      handler(newValue, oldValue) {
+        this.$nextTick(() => {
+          var mySwiper = new Swiper(".swiper-container", {
+            loop: true, // 循环模式选项
+
+            // 如果需要分页器
+            pagination: {
+              el: ".swiper-pagination",
+              clickable: true,
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+          });
+        });
+      },
+    },
   },
 };
 </script>

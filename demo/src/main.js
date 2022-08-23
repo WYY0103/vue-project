@@ -14,6 +14,9 @@ import TypeNav from '@/components/TypeNav';
 Vue.component(TypeNav.name, TypeNav);
 
 import '@/mock/mockServe';
+// 引入swiper样式
+import "swiper/css/swiper.css";
+
 
 
 // vue 挂载app

@@ -2,7 +2,7 @@ import { reqCategoryList, reqGetBannerList } from '@/api'
 
 const state = {
     categroyList: [],
-    bannerList:[]
+    bannerList:[],
 };
 const mutations = {
     CETEGORYLIST(state, categroyList) {
