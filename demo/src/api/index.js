@@ -1,5 +1,6 @@
 // 管理所有api接口
 import requests from "./request";
+import mockRequests from './mockAjax';
 
 // 三级联动的接口
 // /api/product/getBaseCategoryList   get请求  无参数
@@ -12,4 +13,7 @@ export const reqCategoryList = () => {
         methods: 'get'
     });
 }
+
+// 轮播图的请求接口  mock
+export const reqGetBannerList = () => mockRequests.get('/banner');
 

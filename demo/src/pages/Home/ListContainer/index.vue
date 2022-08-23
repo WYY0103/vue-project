@@ -8,15 +8,6 @@
             <div class="swiper-slide">
               <img src="./images/banner1.jpg" />
             </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
           </div>
           <!-- 如果需要分页器 -->
           <div class="swiper-pagination"></div>
@@ -92,7 +83,7 @@
           </li>
         </ul>
         <div class="ads">
-          <img src="./images/ad1.png"/>
+          <img src="./images/ad1.png" />
         </div>
       </div>
     </div>
@@ -100,7 +91,20 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  name: "",
+  mounted() {
+    this.$store.dispatch("getBannerList");
+  },
+  computed: {
+    ...mapState({
+      bannerList: (state) => {
+        return state.home.bannerList;
+      }
+    }),
+  },
+};
 </script>
 
 <style lang="less" scoped>

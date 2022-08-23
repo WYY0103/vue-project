@@ -13,7 +13,7 @@ import TypeNav from '@/components/TypeNav';
 // 参数：全局组件的名字，哪一个组件
 Vue.component(TypeNav.name, TypeNav);
 
-import '@/mock/mockserve';
+import '@/mock/mockServe';
 
 
 // vue 挂载app
