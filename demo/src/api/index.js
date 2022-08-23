@@ -1,6 +1,6 @@
 // 管理所有api接口
-import requests from "./request";
-import mockRequests from './mockAjax';
+import requests from "./axios";
+import mockRequests from './mockAxios';
 
 // 三级联动的接口
 // 在这定义一个函数  对外暴露
