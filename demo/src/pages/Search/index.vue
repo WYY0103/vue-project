@@ -16,14 +16,20 @@
               {{ searchParams.categoryName
               }}<i @click="removeCategoryName">×</i>
             </li>
+            <!-- 关键字的面包屑 -->
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
+            </li>
+            <!-- 品牌的面包屑 -->
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1]
+              }}<i @click="removeTrademark">×</i>
             </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector @tradeMarkInfo="tradeMarkInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -195,7 +201,7 @@ export default {
         this.$router.push({ name: "search", params: this.$route.params });
       }
     },
-    removeKeyword() { 
+    removeKeyword() {
       this.searchParams.keyword = "";
       this.getSearchData();
       // 清除搜索框中用户输入的内容
@@ -203,6 +209,17 @@ export default {
       if (this.$route.query) {
         this.$router.push({ name: "search", query: this.$route.query });
       }
+    },
+    removeTrademark() {
+      this.searchParams.trademark = "";
+      this.getSearchData();
+    },
+    // 自定义事件的回调  用来接收子组件传递的数据的事件
+    tradeMarkInfo(trademark) {
+      // 整理品牌字段的参数
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      // 发送请求获取数据
+      this.getSearchData();
     },
   },
   watch: {

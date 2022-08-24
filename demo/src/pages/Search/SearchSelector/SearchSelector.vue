@@ -3,21 +3,34 @@
     <div class="type-wrap logo">
       <div class="fl key brand">品牌</div>
       <div class="value logos">
+        <!-- 品牌 -->
         <ul class="logo-list">
-          <li v-for="(trademark,index) in trademarkList" :key="trademark.tmId">{{trademark.tmName}}</li>
+          <li
+            v-for="(trademark, index) in trademarkList"
+            :key="trademark.tmId"
+            @click="tradeMarkHandler(trademark)"
+          >
+            {{ trademark.tmName }}
+          </li>
         </ul>
       </div>
+
       <div class="ext">
         <a href="javascript:void(0);" class="sui-btn">多选</a>
         <a href="javascript:void(0);">更多</a>
       </div>
     </div>
-    <div class="type-wrap" v-for="(attr,index) in attrsList" :key="attr.attrId">
-      <div class="fl key">{{attr.attrName}}</div>
+
+    <div
+      class="type-wrap"
+      v-for="(attr, index) in attrsList"
+      :key="attr.attrId"
+    >
+      <div class="fl key">{{ attr.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue,index) in attr.attrValueList" :key="index">
-            <a>{{attrValue}}</a>
+          <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
+            <a>{{ attrValue }}</a>
           </li>
         </ul>
       </div>
@@ -31,9 +44,17 @@ import { mapGetters } from "vuex";
 export default {
   name: "SearchSelector",
   mounted() {},
-  computed:{
-    ...mapGetters(['trademarkList','attrsList']),
-  }
+  computed: {
+    ...mapGetters(["trademarkList", "attrsList"]),
+  },
+  methods: {
+    // 子组件SearchSelector需要将点击的品牌信息传递给父组件search
+    // 父组件拿到信息后发起请求获取数据进行展示
+    // 子组件传递给父组件的参数  采用自定义事件
+    tradeMarkHandler(trademark) {
+      this.$emit("tradeMarkInfo", trademark);
+    },
+  },
 };
 </script>
 
