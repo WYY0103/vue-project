@@ -95,6 +95,7 @@
             </ul>
           </div>
 
+          <!-- 分页器 -->
           <div class="fr page">
             <div class="sui-pagination clearfix">
               <ul>
@@ -163,7 +164,6 @@ export default {
   },
   // 发请求之前获取到要search的数据
   beforeMount() {
-    console.log(this.searchParams);
     Object.assign(this.searchParams, this.$route.query, this.$route.params);
   },
   mounted() {
@@ -171,7 +171,7 @@ export default {
   },
   computed: {
     // 从仓库中直接获取goodsList属性  在getters里面已经获取相应数据放到goodsList属性
-    ...mapGetters(["goodsList"])
+    ...mapGetters(["goodsList"]),
   },
   methods: {
     // 向服务器发送请求获取数据  根据不同参数来获取不同数据
