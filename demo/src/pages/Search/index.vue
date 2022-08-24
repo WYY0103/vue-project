@@ -167,7 +167,7 @@ export default {
     Object.assign(this.searchParams, this.$route.query, this.$route.params);
   },
   mounted() {
-    this.getData();
+    this.getSearchData();
   },
   computed: {
     // 从仓库中直接获取goodsList属性  在getters里面已经获取相应数据放到goodsList属性
@@ -175,8 +175,22 @@ export default {
   },
   methods: {
     // 向服务器发送请求获取数据  根据不同参数来获取不同数据
-    getData() {
+    getSearchData() {
       this.$store.dispatch("getSearchList", this.searchParams);
+    },
+  },
+  watch: {
+    // 监听路由变化  只要路由发生改变
+    // 就再次发送请求获取数据
+    $route(newValue,oldValue) {
+      // 再次发送请求之前需要再次获取要search的数据
+      Object.assign(this.searchParams, this.$route.query, this.$route.params);
+      // 根据数据发送请求获取数据
+      this.getSearchData();
+      // 清除上一次的请求数据id,要不下一次请求时会带上相应参数
+      this.searchParams.category1Id = '';
+      this.searchParams.category2Id = '';
+      this.searchParams.category3Id = '';
     },
   },
 };
