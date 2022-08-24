@@ -23,7 +23,6 @@
 
         <!--details-->
         <div class="details clearfix">
-
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
@@ -52,28 +51,44 @@
           <!-- 销售产品列表 -->
           <div class="goods-list">
             <ul class="yui3-g">
-              <li class="yui3-u-1-5" v-for="(good,index) in goodsList" :key="good.id">
+              <li
+                class="yui3-u-1-5"
+                v-for="(good, index) in goodsList"
+                :key="good.id"
+              >
                 <div class="list-wrap">
                   <div class="p-img">
                     <a href="item.html" target="_blank">
-                      <img :src="good.defaultImg"/>
+                      <img :src="good.defaultImg" />
                     </a>
                   </div>
                   <div class="price">
                     <strong>
                       <em>¥</em>
-                      <i>{{good.price}}</i>
+                      <i>{{ good.price }}</i>
                     </strong>
                   </div>
                   <div class="attr">
-                    <a target="_blank" href="item.html" title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】">{{good.title}}</a>
+                    <a
+                      target="_blank"
+                      href="item.html"
+                      title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
+                      >{{ good.title }}</a
+                    >
                   </div>
                   <div class="commit">
                     <i class="command">已有<span>2000</span>人评价</i>
                   </div>
                   <div class="operate">
-                    <a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                    <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
+                    <a
+                      href="success-cart.html"
+                      target="_blank"
+                      class="sui-btn btn-bordered btn-danger"
+                      >加入购物车</a
+                    >
+                    <a href="javascript:void(0);" class="sui-btn btn-bordered"
+                      >收藏</a
+                    >
                   </div>
                 </div>
               </li>
@@ -109,8 +124,6 @@
               <div><span>共10页&nbsp;</span></div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
@@ -125,13 +138,47 @@ export default {
   components: {
     SearchSelector,
   },
-  mounted() {
-    this.$store.dispatch("getSearchList", {});
+  data() {
+    return {
+      // search的时候带给服务器的参数
+      searchParams: {
+        category1Id: "",
+        category2Id: "",
+        category3Id: "",
+        categoryName: "",
+        // 用户输入的关键字
+        keyword: "",
+        // 平台商品的属性
+        props: [],
+        // 商品牌子
+        trademark: "",
+        // 排序
+        order: "",
+        // 分页器
+        pageNo: 1,
+        // 每页展示数据的个数
+        pageSize: 10,
+      },
+    };
   },
-  computed:{
+  // 发请求之前获取到要search的数据
+  beforeMount() {
+    console.log(this.searchParams);
+    Object.assign(this.searchParams, this.$route.query, this.$route.params);
+  },
+  mounted() {
+    this.getData();
+  },
+  computed: {
     // 从仓库中直接获取goodsList属性  在getters里面已经获取相应数据放到goodsList属性
-    ...mapGetters(['goodsList']),
-  }
+    ...mapGetters(["goodsList"])
+  },
+  methods: {
+    // 向服务器发送请求获取数据  根据不同参数来获取不同数据
+    getData() {
+      this.$store.dispatch("getSearchList", this.searchParams);
+    },
+  },
 };
 </script>
 
