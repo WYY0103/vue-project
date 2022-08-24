@@ -21,15 +21,18 @@
       </div>
     </div>
 
+    <!-- 平台售卖属性 -->
     <div
       class="type-wrap"
       v-for="(attr, index) in attrsList"
       :key="attr.attrId"
     >
-      <div class="fl key">{{ attr.attrName }}</div>
+    <!-- 售卖属性 -->
+      <div class="fl key" >{{ attr.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
+          <!-- 售卖属性的属性值 -->
+          <li v-for="(attrValue, index) in attr.attrValueList" :key="index" @click="attrInfo(attr,attrValue)">
             <a>{{ attrValue }}</a>
           </li>
         </ul>
@@ -54,6 +57,10 @@ export default {
     tradeMarkHandler(trademark) {
       this.$emit("tradeMarkInfo", trademark);
     },
+    attrInfo(attr,attrValue){
+      this.$emit("attrInfo",attr,attrValue)
+
+    }
   },
 };
 </script>

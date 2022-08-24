@@ -25,11 +25,19 @@
               {{ searchParams.trademark.split(":")[1]
               }}<i @click="removeTrademark">×</i>
             </li>
+            <!-- 属性的面包屑 需要遍历展示数组-->
+            <li
+              class="with-x"
+              v-for="(attrValue, index) in searchParams.props"
+              :key="index"
+            >
+              {{ attrValue.split(":")[1] }}<i @click="removePropsmark(index)">×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector @tradeMarkInfo="tradeMarkInfo" />
+        <SearchSelector @tradeMarkInfo="tradeMarkInfo" @attrInfo="attrInfo" />
 
         <!--details-->
         <div class="details clearfix">
@@ -214,11 +222,23 @@ export default {
       this.searchParams.trademark = "";
       this.getSearchData();
     },
+    removePropsmark(index) {
+      // 在数组中删除当前删除的
+      this.searchParams.props.splice(index,1);
+      this.getSearchData();
+    },
     // 自定义事件的回调  用来接收子组件传递的数据的事件
     tradeMarkInfo(trademark) {
       // 整理品牌字段的参数
       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
       // 发送请求获取数据
+      this.getSearchData();
+    },
+    attrInfo(attr, attrValue) {
+      let props = `${attr.attrId}:${attrValue}:${attr.attrName}`;
+      if (this.searchParams.props.indexOf(props) == -1) {
+        this.searchParams.props.push(props);
+      }
       this.getSearchData();
     },
   },
