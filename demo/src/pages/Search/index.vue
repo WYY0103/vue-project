@@ -11,9 +11,13 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
+            <!-- 分类的面包屑 -->
             <li class="with-x" v-if="searchParams.categoryName">
               {{ searchParams.categoryName
               }}<i @click="removeCategoryName">×</i>
+            </li>
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}<i @click="removeKeyword">×</i>
             </li>
           </ul>
         </div>
@@ -179,6 +183,7 @@ export default {
       this.$store.dispatch("getSearchList", this.searchParams);
     },
     removeCategoryName() {
+      // 将参数至空以便于下一次发请求
       this.searchParams.categoryName = "";
       this.searchParams.category1Id = "";
       this.searchParams.category2Id = "";
@@ -188,6 +193,15 @@ export default {
       // 修改地址栏
       if (this.$route.params) {
         this.$router.push({ name: "search", params: this.$route.params });
+      }
+    },
+    removeKeyword() { 
+      this.searchParams.keyword = "";
+      this.getSearchData();
+      // 清除搜索框中用户输入的内容
+      this.$bus.$emit("clear");
+      if (this.$route.query) {
+        this.$router.push({ name: "search", query: this.$route.query });
       }
     },
   },
