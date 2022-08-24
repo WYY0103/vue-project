@@ -11,10 +11,10 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName
+              }}<i @click="removeCategoryName">×</i>
+            </li>
           </ul>
         </div>
 
@@ -178,19 +178,31 @@ export default {
     getSearchData() {
       this.$store.dispatch("getSearchList", this.searchParams);
     },
+    removeCategoryName() {
+      this.searchParams.categoryName = "";
+      this.searchParams.category1Id = "";
+      this.searchParams.category2Id = "";
+      this.searchParams.category3Id = "";
+      // 删除后需要再次发请求显示默认数据
+      this.getSearchData();
+      // 修改地址栏
+      if (this.$route.params) {
+        this.$router.push({ name: "search", params: this.$route.params });
+      }
+    },
   },
   watch: {
     // 监听路由变化  只要路由发生改变
     // 就再次发送请求获取数据
-    $route(newValue,oldValue) {
+    $route(newValue, oldValue) {
       // 再次发送请求之前需要再次获取要search的数据
       Object.assign(this.searchParams, this.$route.query, this.$route.params);
       // 根据数据发送请求获取数据
       this.getSearchData();
       // 清除上一次的请求数据id,要不下一次请求时会带上相应参数
-      this.searchParams.category1Id = '';
-      this.searchParams.category2Id = '';
-      this.searchParams.category3Id = '';
+      this.searchParams.category1Id = "";
+      this.searchParams.category2Id = "";
+      this.searchParams.category3Id = "";
     },
   },
 };
