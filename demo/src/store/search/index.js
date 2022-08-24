@@ -5,7 +5,7 @@ const state = {
 };
 const mutations = {
     GETSEARCHLIST(state, searchList) {
-        state.Searchlist = searchList;
+       state.searchList = searchList;
     }
 };
 const actions = {
@@ -19,7 +19,23 @@ const actions = {
         }
     }
 };
-const getters = {};
+// 用于计算属性
+// 项目中主要作用：简化仓库中的数据
+// 因为search中的数据包括好几个模块
+// 若用mapState获取的话需要分批获取
+// 放进getter中可以简化操作
+const getters = {
+    // state 当前仓库中的state
+    goodsList(state){
+        return state.searchList.goodsList || [];
+    },
+    trademarkList(state){
+        return state.searchList.trademarkList || [];
+    },
+    attrsList(state){
+        return state.searchList.attrsList || [];
+    }
+};
 
 export default {
     state,
