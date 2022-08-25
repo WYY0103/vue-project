@@ -31,7 +31,8 @@
               v-for="(attrValue, index) in searchParams.props"
               :key="index"
             >
-              {{ attrValue.split(":")[1] }}<i @click="removePropsmark(index)">×</i>
+              {{ attrValue.split(":")[1]
+              }}<i @click="removePropsmark(index)">×</i>
             </li>
           </ul>
         </div>
@@ -44,23 +45,29 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }" @click="changeOrder('1')">
+                  <a
+                    >综合<span
+                      v-show="isOne"
+                      class="iconfont"
+                      :class="{
+                        'icon-jiantou_xiangshang': isUp,
+                        'icon-jiantou_xiangxia': isDown,
+                      }"
+                    ></span
+                  ></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }" @click="changeOrder('2')">
+                  <a
+                    >价格<span
+                      v-show="isTwo"
+                      class="iconfont"
+                      :class="{
+                        'icon-jiantou_xiangshang': isUp,
+                        'icon-jiantou_xiangxia': isDown,
+                      }"
+                    ></span
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -171,8 +178,9 @@ export default {
         props: [],
         // 商品牌子
         trademark: "",
-        // 排序
-        order: "",
+        // 排序：初始状态是综合降序
+        // 1 综合  2 价格
+        order: "1:desc",
         // 分页器
         pageNo: 1,
         // 每页展示数据的个数
@@ -190,6 +198,18 @@ export default {
   computed: {
     // 从仓库中直接获取goodsList属性  在getters里面已经获取相应数据放到goodsList属性
     ...mapGetters(["goodsList"]),
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
+    isUp() {
+      return this.searchParams.order.indexOf("asc") != -1;
+    },
+    isDown() {
+      return this.searchParams.order.indexOf("desc") != -1;
+    },
   },
   methods: {
     // 向服务器发送请求获取数据  根据不同参数来获取不同数据
@@ -224,7 +244,7 @@ export default {
     },
     removePropsmark(index) {
       // 在数组中删除当前删除的
-      this.searchParams.props.splice(index,1);
+      this.searchParams.props.splice(index, 1);
       this.getSearchData();
     },
     // 自定义事件的回调  用来接收子组件传递的数据的事件
@@ -239,6 +259,24 @@ export default {
       if (this.searchParams.props.indexOf(props) == -1) {
         this.searchParams.props.push(props);
       }
+      this.getSearchData();
+    },
+    changeOrder(flag) {
+      // flag:代表用户点击的是综合 | 价格
+      // originOrder:初始order
+      let originOrder = this.searchParams.order;
+      // originFlag：order初始（综合）
+      let originFlag = originOrder.split(":")[0];
+      // originSort：order初始（降序）
+      let originSort = originOrder.split(":")[1];
+      let newOrder = "";
+      // 判断点击的是综合还是价格  因为初始状态是综合
+      if (flag == originFlag) {
+        newOrder = `${originFlag}:${originSort == "desc" ? "asc" : "desc"}`;
+      } else {
+        newOrder = `${flag}:${'desc'}`;
+      }
+      this.searchParams.order = newOrder;
       this.getSearchData();
     },
   },
