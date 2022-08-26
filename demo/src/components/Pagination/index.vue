@@ -1,26 +1,83 @@
 <template>
   <div class="pagination">
-    <button>上一页</button>
-    <button>1</button>
-    <button>···</button>
+    <button :disabled="pageNo == 1" @click="$emit('getPageNo', pageNo - 1)">
+      上一页
+    </button>
+    <button
+      v-if="startNumAndEndNum.start > 1"
+      @click="$emit('getPageNo', 1)"
+      :class="{ active: pageNo == 1 }"
+    >
+      1
+    </button>
+    <button v-if="startNumAndEndNum.start > 2">···</button>
 
-    <button>3</button>
-    <button>4</button>
-    <button>5</button>
-    <button>6</button>
-    <button>7</button>
+    <button
+      v-for="(page, index) in startNumAndEndNum.end"
+      :key="index"
+      v-if="page >= startNumAndEndNum.start"
+      @click="$emit('getPageNo', page)"
+      :class="{ active: pageNo == page }"
+    >
+      {{ page }}
+    </button>
 
-    <button>···</button>
-    <button>9</button>
-    <button>下一页</button>
-
-    <button style="margin-left: 30px">共 60 条</button>
+    <button v-if="startNumAndEndNum.end < totalPage - 1">···</button>
+    <button
+      v-if="startNumAndEndNum.end < totalPage"
+      @click="$emit('getPageNo', totalPage)"
+      :class="{ active: pageNo == totalPage }"
+    >
+      {{ totalPage }}
+    </button>
+    <button
+      :disabled="pageNo == totalPage"
+      @click="$emit('getPageNo', pageNo + 1)"
+    >
+      下一页
+    </button>
+    <button style="margin-left: 30px">共 {{ total }} 条</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "Pagination",
+  props: ["pageNo", "pageSize", "total", "continues"],
+  computed: {
+    // 总页数
+    totalPage() {
+      // Math.ceil向上取整
+      return Math.ceil(this.total / this.pageSize);
+    },
+    // 计算出连续页码的起止数字
+    startNumAndEndNum() {
+      let start = 0;
+      let end = 0;
+      // 解决特殊情况
+      /*
+            连续页码的个数是5，但是总页数只有4页
+            此时总页数无法构成5个连续页
+      */
+      if (this.continues > this.totalPage) {
+        start = 1;
+        end = this.totalPage;
+      } else {
+        start = this.pageNo - parseInt(this.continues / 2);
+        end = this.pageNo + parseInt(this.continues / 2);
+        // 会出现特殊情况  例如起始页是1 则就是从1到continues
+        if (start < 1) {
+          start = 1;
+          end = this.continues;
+        }
+        if (end > this.totalPage) {
+          start = this.totalPage - this.continues + 1;
+          end = this.totalPage;
+        }
+      }
+      return { start, end };
+    },
+  },
 };
 </script>
 
@@ -56,5 +113,8 @@ export default {
       color: #fff;
     }
   }
+}
+.active{
+  background: #409eff;
 }
 </style>
