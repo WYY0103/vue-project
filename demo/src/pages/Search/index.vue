@@ -121,7 +121,8 @@
           </div>
 
           <!-- 分页器 -->
-          <div class="fr page">
+          <Pagination></Pagination>
+          <!-- <div class="fr page">
             <div class="sui-pagination clearfix">
               <ul>
                 <li class="prev disabled">
@@ -149,7 +150,8 @@
               </ul>
               <div><span>共10页&nbsp;</span></div>
             </div>
-          </div>
+          </div> -->
+
         </div>
       </div>
     </div>

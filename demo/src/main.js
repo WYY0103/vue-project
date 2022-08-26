@@ -21,6 +21,10 @@ import "swiper/css/swiper.css";
 import Carousel from '@/components/Carousel';
 Vue.component(Carousel.name, Carousel);
 
+// 分页器组件
+import Pagination from '@/components/Pagination';
+Vue.component(Pagination.name,Pagination);
+
 
 
 
