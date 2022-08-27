@@ -5,7 +5,7 @@ const state = {
 
 };
 const mutations = {
-    
+
     GETGOODSINFO(state, goodsInfo) {
         state.goodsInfo = goodsInfo
     }
@@ -14,7 +14,6 @@ const mutations = {
 const actions = {
     async getGoodsInfo({ commit }, skuId) {
         let res = await reqGetGoods(skuId);
-        console.log("2");
         if (res.code == 200) {
             commit("GETGOODSINFO", res.data);
         }
@@ -22,11 +21,14 @@ const actions = {
 };
 
 const getters = {
-    categoryView(state){
+    categoryView(state) {
         return state.goodsInfo.categoryView || {};
     },
-    skuInfo(state){
+    skuInfo(state) {
         return state.goodsInfo.skuInfo || {};
+    },
+    spuSaleAttrList(state) {
+        return state.goodsInfo.spuSaleAttrList || {};
     }
 
 };

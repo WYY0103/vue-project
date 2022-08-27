@@ -32,7 +32,7 @@ export default [
         redirect: '/home'
     },
     {
-        path: '/detail/:skuId?',
+        path: '/detail/:skuId',
         component: Detail,
         meta: { show: false },
     }
