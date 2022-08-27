@@ -22,8 +22,11 @@ const actions = {
 };
 
 const getters = {
-    categoryView(){
+    categoryView(state){
         return state.goodsInfo.categoryView || {};
+    },
+    skuInfo(state){
+        return state.goodsInfo.skuInfo || {};
     }
 
 };
