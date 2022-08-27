@@ -14,10 +14,9 @@
       <!-- 主要内容区域 -->
       <div class="mainCon">
         <!-- 左侧放大镜区域 -->
-        
         <div class="previewWrap">
           <!--放大镜-->
-          <Zoom />
+          <Zoom :skuImageList="skuImageList"/>
           <!-- 轮播图 -->
           <ImageList />
         </div>
@@ -365,6 +364,10 @@
     },
     computed:{
       ...mapGetters(['categoryView','skuInfo']),
+      // 防止获取图片的时候产生undefined的错误
+      skuImageList(){
+        return this.skuInfo.skuImageList || [];
+      }
     }
   }
 </script>
