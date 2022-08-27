@@ -18,5 +18,11 @@ export const reqGetFloorList = () => mockRequests.get('/floor');
 export const reqGetSearchInfo = (params) => requests({
     url: "/list",
     method: "post",
-    data:params
+    data: params
 })
+
+// 获取商品详情
+export const reqGetGoods = (skuId) => requests({ 
+    url: `/item/${skuId}`, 
+    method: 'get' 
+});

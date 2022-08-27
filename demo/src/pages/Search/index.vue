@@ -83,9 +83,9 @@
               >
                 <div class="list-wrap">
                   <div class="p-img">
-                    <a href="item.html" target="_blank">
+                    <router-link :to="`/detail/${good.id}`">
                       <img :src="good.defaultImg" />
-                    </a>
+                    </router-link>
                   </div>
                   <div class="price">
                     <strong>
@@ -133,7 +133,8 @@
             :total="total"
             :continues="5"
             @getPageNo="getPageNo"
-          ></Pagination>
+          >
+          </Pagination>
         </div>
       </div>
     </div>
@@ -266,10 +267,10 @@ export default {
       this.searchParams.order = newOrder;
       this.getSearchData();
     },
-    getPageNo(pageNo){
+    getPageNo(pageNo) {
       this.searchParams.pageNo = pageNo;
       this.getSearchData();
-    }
+    },
   },
   watch: {
     // 监听路由变化  只要路由发生改变
