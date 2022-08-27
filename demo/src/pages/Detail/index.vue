@@ -83,6 +83,11 @@
                 :key="skuSaleAttr.id"
               >
                 <dt class="title">{{ skuSaleAttr.saleAttrName }}</dt>
+                <!-- 
+                  点击属性高亮  传递两个参数
+                  1 当前点击的是哪个
+                  2 剩余的其他属性
+                -->
                 <dd
                   changepirce="0"
                   :class="{ active: skuSaleAttrValue.isChecked == 1 }"
@@ -90,6 +95,12 @@
                     skuSaleAttrValue, index
                   ) in skuSaleAttr.spuSaleAttrValueList"
                   :key="skuSaleAttrValue.id"
+                  @click="
+                    changeActive(
+                      skuSaleAttrValue,
+                      skuSaleAttr.spuSaleAttrValueList
+                    )
+                  "
                 >
                   {{ skuSaleAttrValue.saleAttrValueName }}
                 </dd>
@@ -361,6 +372,14 @@ export default {
     // 防止获取图片的时候产生undefined的错误
     skuImageList() {
       return this.skuInfo.skuImageList || [];
+    },
+  },
+  methods: {
+    changeActive(saleArrValue, saleArr) {
+      saleArr.forEach((item) => {
+        item.isChecked = "0";
+      });
+      saleArrValue.isChecked = "1";
     },
   },
 };
