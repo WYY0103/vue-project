@@ -22,7 +22,13 @@ export const reqGetSearchInfo = (params) => requests({
 })
 
 // 获取商品详情
-export const reqGetGoods = (skuId) => requests({ 
-    url: `/item/${skuId}`, 
-    method: 'get' 
+export const reqGetGoods = (skuId) => requests({
+    url: `/item/${skuId}`,
+    method: 'get',
 });
+
+// 将产品添加购物车当中（更新某一个产品的个数）
+export const reqGetShoppingCart = (skuId, skuNum) => requests({
+    url: `/cart/addToCart/${skuId}/${skuNum}`,
+    method: 'post',
+})

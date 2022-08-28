@@ -123,7 +123,7 @@
                 >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="addShopCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -405,6 +405,19 @@ export default {
         this.skuNum = 1;
       } else {
         this.skuNum = parseInt(value);
+      }
+    },
+    // 添加购物车
+    async addShopCart() {
+      try {
+        await this.$store.dispatch("updateShoppingCart", {
+          skuId: this.$route.params.skuId,
+          skuNum: this.skuNum,
+        });
+        // this.$router.push({name:'addcartsuccess'});
+        this.$router.push('/addcartsuccess');
+      } catch (error) {
+        alert(error.message);
       }
     },
   },
