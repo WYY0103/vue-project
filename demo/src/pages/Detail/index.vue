@@ -383,6 +383,7 @@ export default {
     this.$store.dispatch("getGoodsInfo", this.$route.params.skuId);
   },
   computed: {
+    // {}
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
     // 防止获取图片的时候产生undefined的错误
     skuImageList() {
@@ -414,8 +415,11 @@ export default {
           skuId: this.$route.params.skuId,
           skuNum: this.skuNum,
         });
-        // this.$router.push({name:'addcartsuccess'});
-        this.$router.push('/addcartsuccess');
+        sessionStorage.setItem("SKUINFO",JSON.stringify(this.skuInfo));
+        this.$router.push({
+          name: "addcartsuccess",
+          query: {skuNum: this.skuNum },
+        });
       } catch (error) {
         alert(error.message);
       }
