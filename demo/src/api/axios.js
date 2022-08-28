@@ -4,6 +4,7 @@ import axios from "axios";
 // done 进度条结束
 import nProgress from "nprogress";
 import "nprogress/nprogress.css";
+import store from "@/store";
 
 // 对axios进行二次封装
 // 1 利用axios对象的create方法，创建axios实例
@@ -19,6 +20,9 @@ const requests = axios.create({
 requests.interceptors.request.use((config)=>{
     // config  配置对象  对象里面有一个header属性很重要   请求头
     nProgress.start();
+    if(store.state.detail.uuid_token){
+        config.headers.userTempId = store.state.detail.uuid_token;
+    }
     return config;
 })
 

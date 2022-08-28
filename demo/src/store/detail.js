@@ -1,8 +1,11 @@
-import { reqGetGoods,reqGetShoppingCart } from '@/api'
+import { reqGetGoods,reqAddShoppingCart } from '@/api';
+import {getUUID} from '@/utils/uuid_token';
 
 const state = {
-    goodsInfo: {}
-
+    goodsInfo: {},
+    // 游客临时身份 存储到本地存储中
+    // getUUID 获取游客身份
+    uuid_token:getUUID(),
 };
 const mutations = {
 
@@ -18,7 +21,7 @@ const actions = {
         }
     },
     async updateShoppingCart({commit},{skuId,skuNum}){
-        let res = await reqGetShoppingCart(skuId,skuNum);
+        let res = await reqAddShoppingCart(skuId,skuNum);
         // 加入购物车只是通知服务器里面数据更新
         // 无需存储在vuex里面
         // 这里需要返回成功与失败的标记  用于组件接收是否成功进行接下来的操作

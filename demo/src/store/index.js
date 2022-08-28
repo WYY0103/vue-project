@@ -6,7 +6,8 @@ Vue.use(Vuex);
 // 引入小仓库 将大仓库拆分成小仓库
 import home from "./home";
 import search from "./search";
-import detail from "./detail"
+import detail from './detail';
+import shopcart from './shopcart'
 
 
 // vuex下面的store方法初始化仓库
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     modules:{
         home,
         search,
-        detail
+        detail,
+        shopcart
     }
 
 })

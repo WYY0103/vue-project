@@ -28,7 +28,13 @@ export const reqGetGoods = (skuId) => requests({
 });
 
 // 将产品添加购物车当中（更新某一个产品的个数）
-export const reqGetShoppingCart = (skuId, skuNum) => requests({
+export const reqAddShoppingCart = (skuId, skuNum) => requests({
     url: `/cart/addToCart/${skuId}/${skuNum}`,
     method: 'post',
+})
+
+// 获取购物车列表的接口
+export const reqGetShoppingCart = () => requests({
+    url:'/cart/cartList',
+    method:'get'
 })
