@@ -22,6 +22,7 @@
               type="checkbox"
               name="chk_list"
               :checked="cart.isChecked == 1"
+              @change="checkCartChecked(cart, $event)"
             />
           </li>
           <li class="cart-list-con2">
@@ -123,7 +124,8 @@ export default {
     getData() {
       this.$store.dispatch("getCartList");
     },
-    async handler(type, disNum, cart) {
+    // 修改产品数量
+    handler: throttle(async function (type, disNum, cart) {
       // type 为了区分点击的是哪个按钮
       // disNum 变化的量 +1 -1 用户自己输入
       // cart  修改的是哪个产品的数量 id
@@ -153,10 +155,24 @@ export default {
       } catch (error) {
         alert(error.message);
       }
-    },
+    }, 500),
+    // 删除产品
     async deleteCart(cart) {
       try {
         await this.$store.dispatch("deleteCartListBySkuId", cart.skuId);
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    // 修改产品状态
+    async checkCartChecked(cart, event) {
+      try {
+        let checked = event.target.checked ? "1" : "0";
+        await this.$store.dispatch("checkCartChecked", {
+          skuId: cart.skuId,
+          isChecked: checked,
+        });
         this.getData();
       } catch (error) {
         alert(error.message);
