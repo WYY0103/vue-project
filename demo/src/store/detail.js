@@ -20,6 +20,7 @@ const actions = {
             commit("GETGOODSINFO", res.data);
         }
     },
+    // 加入购物车
     async updateShoppingCart({commit},{skuId,skuNum}){
         let res = await reqAddShoppingCart(skuId,skuNum);
         // 加入购物车只是通知服务器里面数据更新

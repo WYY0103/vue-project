@@ -33,17 +33,30 @@
           <li class="cart-list-con4">
             <span class="price">{{ cart.skuPrice }}</span>
           </li>
+
           <li class="cart-list-con5">
-            <a href="javascript:void(0)" class="mins">-</a>
+            <a
+              href="javascript:void(0)"
+              class="mins"
+              @click="handler('minus', -1, cart)"
+              >-</a
+            >
             <input
               autocomplete="off"
               type="text"
               :value="cart.skuNum"
               minnum="1"
               class="itxt"
+              @click="handler('change', $event.target.value * 1, cart)"
             />
-            <a href="javascript:void(0)" class="plus">+</a>
+            <a
+              href="javascript:void(0)"
+              class="plus"
+              @click="handler('add', 1, cart)"
+              >+</a
+            >
           </li>
+
           <li class="cart-list-con6">
             <span class="sum">{{ cart.skuPrice * cart.skuNum }}</span>
           </li>
@@ -58,7 +71,7 @@
 
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllCheck"/>
+        <input class="chooseAll" type="checkbox" :checked="isAllCheck" />
         <span>全选</span>
       </div>
       <div class="option">
@@ -108,6 +121,37 @@ export default {
   methods: {
     getData() {
       this.$store.dispatch("getCartList");
+    },
+    async handler(type, disNum, cart) {
+      // type 为了区分点击的是哪个按钮
+      // disNum 变化的量 +1 -1 用户自己输入
+      // cart  修改的是哪个产品的数量 id
+      switch (type) {
+        case "add":
+          disNum = 1;
+          break;
+        case "minus":
+          // 只有当产品的数量大于1 是才可以变化
+          disNum = cart.skuNum > 1 ? -1 : 0;
+          break;
+        case "change":
+          if (isNaN(disNum) || disNum < 1) {
+            // 处理非法输入
+            disNum = 0;
+          } else {
+            disNum = parseInt(disNum) - cart.skuNum;
+          }
+          break;
+      }
+      try {
+        await this.$store.dispatch("updateShoppingCart", {
+          skuId: cart.skuId,
+          skuNum: disNum,
+        });
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
     },
   },
 };
