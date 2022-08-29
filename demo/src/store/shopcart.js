@@ -1,4 +1,4 @@
-import { reqGetShoppingCart } from '@/api'
+import { reqGetShoppingCart,reqDeleteCart } from '@/api'
 
 const state = {
     cartList: [],
@@ -18,8 +18,15 @@ const actions = {
         if (res.code == 200) {
             commit('GETCARTLIST', res.data);
         }
+    },
+    async deleteCartListBySkuId({commit},skuId){
+        let res = await reqDeleteCart(skuId);
+        if(res.code == 200){
+            return 'ok'
+        }else{
+            return Promise.reject(new Error('error'));
+        }
     }
-
 };
 
 const getters = {
