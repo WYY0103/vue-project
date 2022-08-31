@@ -7,7 +7,8 @@ Vue.use(Vuex);
 import home from "./home";
 import search from "./search";
 import detail from './detail';
-import shopcart from './shopcart'
+import shopcart from './shopcart';
+import register from "./register";
 
 
 // vuex下面的store方法初始化仓库
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         home,
         search,
         detail,
-        shopcart
+        shopcart,
+        register
     }
 
 })

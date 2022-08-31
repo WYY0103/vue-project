@@ -35,18 +35,31 @@ export const reqAddShoppingCart = (skuId, skuNum) => requests({
 
 // 获取购物车列表的接口
 export const reqGetShoppingCart = () => requests({
-    url:'/cart/cartList',
-    method:'get'
+    url: '/cart/cartList',
+    method: 'get'
 })
 
 // 删除购物车商品
-export const reqDeleteCart = (skuId)=>requests({
-    url:`/cart/deleteCart/${skuId}`,
-    method:'delete'
+export const reqDeleteCart = (skuId) => requests({
+    url: `/cart/deleteCart/${skuId}`,
+    method: 'delete'
 })
 
 // 切换商品选中状态
-export const reqCheckCartChecked = (skuId,isChecked)=>requests({
-    url:`/cart/checkCart/${skuId}/${isChecked}`,
-    method:'get'
+export const reqCheckCartChecked = (skuId, isChecked) => requests({
+    url: `/cart/checkCart/${skuId}/${isChecked}`,
+    method: 'get'
+})
+
+// 获取验证码的接口
+export const reqGetCode = (phone) => requests({
+    url: `/user/passport/sendCode/${phone}`,
+    method: 'get'
+})
+
+// 注册的接口
+export const reqUserRegister = (data) => requests({
+    url: `/user/passport/register`,
+    method: 'post',
+    data
 })
