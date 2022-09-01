@@ -22,7 +22,7 @@ import Brand from "@/pages/Home/Brand";
 import { mapState } from "vuex";
 
 export default {
-  name: "",
+  name: "Home",
   components: {
     ListContainer,
     Recommend,
@@ -33,6 +33,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getFloorList");
+    this.$store.dispatch("getUserInfo");
   },
   computed: {
     ...mapState({

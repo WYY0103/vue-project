@@ -5,11 +5,19 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <!-- 
+            登录有两种状态  当没有用户名才可以显示登录注册
+            有用户名的话显示用户名和退出登录
+          -->
+          <p v-if="!$store.state.user.nickName">
             <span>请</span>
             <!-- 因为点击登录注册没有其他业务逻辑  只是跳转页面 所以用声明式导航  有to属性-->
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-else>
+              <a>{{$store.state.user.nickName}}</a>
+              <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
