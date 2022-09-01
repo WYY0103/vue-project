@@ -1,5 +1,5 @@
-import { reqGetCode, reqRegister, reqUserLogin,reqUserInfo } from '@/api'
-import {setToken,getToken} from '@/utils/token'
+import { reqGetCode, reqRegister, reqUserLogin,reqUserInfo ,reqUserLogout} from '@/api'
+import {setToken,getToken,removeToken} from '@/utils/token'
 
 const state = {
     //验证码
@@ -19,6 +19,13 @@ const mutations = {
     SET_USERINFO(state, nickName) {
         state.nickName = nickName;
     },
+    CLEAR(state) {
+        //清除仓库相关用户信息
+        state.token = '';
+        state.nickName = '';
+        //本地存储令牌清空
+        removeToken();
+    }
     
 };
 const actions = {
@@ -77,6 +84,18 @@ const actions = {
             return Promise.reject(new Error(res.message));
         }
     },
+
+    //退出登录的业务
+    async logout({ commit }) {
+        //发请求通知服务器销毁当前token【学生证】
+        let res = await reqUserLogout();
+        if (res.code == 200) {
+            commit('CLEAR');
+            return 'ok';
+        } else {
+            return Promise.reject(new Error(res.message));
+        }
+    }
     
 };
 

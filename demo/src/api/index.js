@@ -57,9 +57,28 @@ export const reqGetCode = (phone) => requests({
     method: 'get'
 })
 
-// 注册的接口
-export const reqUserRegister = (data) => requests({
-    url: `/user/passport/register`,
-    method: 'post',
+//注册的接口
+export const reqRegister = (data)=>requests({
+    url:`/user/passport/register`,
+    method:'post',
     data
-})
+});
+
+// 登录的接口: 请求体携带参数 phone&& password
+export const reqUserLogin = (data) => requests({ 
+    url: `/user/passport/login`, 
+    method: 'post', data 
+});
+
+//获取用户登录成功以后用户信息的接口
+export const reqUserInfo = ()=>requests({
+    url:`/user/passport/auth/getUserInfo`,
+    method:'get'
+});
+
+//退出登录业务
+export const reqUserLogout = ()=>requests({
+    url:`/user/passport/logout`,
+    method:'get'
+});
+

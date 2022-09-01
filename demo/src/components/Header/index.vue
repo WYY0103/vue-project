@@ -16,8 +16,8 @@
             <router-link to="/register" class="register">免费注册</router-link>
           </p>
           <p v-else>
-              <a>{{$store.state.user.nickName}}</a>
-              <a class="register" @click="logout">退出登录</a>
+            <a>{{ $store.state.user.nickName }}</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -82,6 +82,16 @@ export default {
         let location = { name: "search", params: { keyword: this.keyword } };
         location.query = this.$route.query;
         this.$router.push(location);
+      }
+    },
+    //退出登录的按钮的回调
+    async logout() {
+      //派遣action退出登录
+      try {
+        await this.$store.dispatch("logout");
+        this.$router.push("/home");
+      } catch (error) {
+        alert(error.message);
       }
     },
   },
