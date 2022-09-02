@@ -27,8 +27,20 @@ Vue.component(Pagination.name,Pagination);
 
 
 //将项目全部请求函数引入进来[分别暴露]  统一引入
-import  * as http from '@/api';
+import * as http from '@/api';
 
+
+//element-ui按需引入
+import { Button, Row, Col, MessageBox,Message,Input} from 'element-ui';
+//element-ui大多数组件，注册为全局组件Vue.component|Vue.use
+// Vue.use(Button);
+// Vue.use(Row);
+// Vue.use(Col);
+// Vue.use(Input);
+Vue.prototype.$msgbox = MessageBox;
+//消息提示框
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$message = Message;
 
 
 // vue 挂载app

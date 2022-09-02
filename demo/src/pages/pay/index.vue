@@ -19,7 +19,7 @@
             <span class="fr">
               <em class="lead">应付金额：</em>
               <em class="orange money">￥{{ payInfo.totalFee }}</em>
-              </span>
+            </span>
           </div>
         </div>
         <div class="checkout-info">
@@ -105,8 +105,10 @@ export default {
     return {
       //支付相关信息:支付钱数、订单号、二维码地址
       payInfo: {},
+      // 存储支付成功的code数值
       code: "",
-      timer:null
+      // 接收定时器
+      timer: null,
     };
   },
   //组件挂载完毕，获取支付相关信息
@@ -115,7 +117,58 @@ export default {
     this.getPayInfo();
   },
   methods: {
-    
+    //立即支付按钮
+    async open() {
+      //生成一个二维码URL
+      let url = await QRCode.toDataURL(this.payInfo.codeUrl);
+      //使用element-ui
+      // 参数：内容区域 标题 组件的配置项
+      this.$alert(`<img src=${url} />`, "请你微信扫码支付", {
+        dangerouslyUseHTMLString: true, //将字符串转换为标签
+        center: true, //居中
+        showClose: false, //右上角的关闭按钮不显示
+        confirmButtonText: "支付成功", //确定按钮的文本
+        showCancelButton: true, //显示取消按钮
+        cancelButtonText: "支付遇见问题", //取消按钮的文本
+        closeOnClickModal: true, //点击遮罩层关闭messagebox
+        beforeClose: (action, instance, done) => {
+          //在消息盒子关闭之前会触发
+          //action参数:可以区分用户点击的是取消【cancel】、确定【confirm】
+          //instance参数:当前消息框组件VC
+          //done参数：是一个函数,函数可以关闭消息盒子
+          if (action == "confirm" && this.code == 200) {
+            clearInterval(this.timer);
+            this.timer = null;
+            //关闭消息盒子
+            done();
+            this.$router.push("/paysuccess");
+          } else if (action == "cancel" && this.code != 200) {
+            clearInterval(this.timer);
+            this.timer = null;
+            done();
+            this.$message.error("支付遇见问题请联系客服");
+          }
+        },
+      });
+
+      //查询支付结果,开启定时器每隔一段时间询问支付结果
+      this.timer = setInterval(async () => {
+        //发请求获取支付结果
+        let res = await this.$http.reqPayResult(this.payInfo.orderId);
+        //返回数据当中：code=200代表支付成功  code=205未支付
+        if (res.code == 200) {
+          //存储code 用于点击按钮的判断
+          this.code = res.code;
+          clearInterval(this.timer);
+          this.timer = null;
+          //关闭messagebox
+          this.$msgbox.close();
+          this.$router.push("/paySuccess");
+        } else {
+          this.code = res.code;
+        }
+      }, 1000);
+    },
     //获取支付信息
     async getPayInfo() {
       let res = await this.$http.reqPayInfo(this.$route.query.orderId);

@@ -106,3 +106,9 @@ export const reqPayInfo = (orderId)=>requests({
     url:`/payment/weixin/createNative/${orderId}`,
     method:'get'
 });
+
+//查询支付结果
+export const reqPayResult = (orderId)=>requests({
+    url:`/payment/weixin/queryPayStatus/${orderId}`,
+    method:'get'
+});
