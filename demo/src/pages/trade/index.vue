@@ -147,18 +147,18 @@ export default {
     async submitInfo() {
       //整理参数:交易编码
       let tradeNo = this.tradeInfo.tradeNo;
-      let data = {
+      let tradeData = {
         consignee: this.defaultUser.consignee, //付款人的名字
         consigneeTel: this.defaultUser.phoneNum, //付款人的手机号
         deliveryAddress: this.defaultUser.fullAddress, //付款人收货地址
         paymentWay: "ONLINE", //支付方式都是在线支付
         orderComment: this.msg, //买家留言
         orderDetailList: this.tradeInfo.detailArrayList, //购物车商品信息
-      };
+      }
 
       //发请求:提交订单
       try {
-        await this.$store.dispatch("submitInfo", { tradeNo, data });
+        await this.$store.dispatch("submitInfo", { tradeNo, tradeData });
         //将来提交订单成功【订单ID生成】，路由跳转pay页面，进行支付
         this.$router.push({ path: "/pay", query: { orderId: this.orderId } });
       } catch (error) {
@@ -168,11 +168,11 @@ export default {
   },
   computed: {
     ...mapState({
-      // address 收件人信息
+      // 收件人信息
       address: (state) => state.trade.address,
-      // tradeInfo 商品清单  购物车里面的数据
+      // 商品清单  购物车里面的数据
       tradeInfo: (state) => state.trade.tradeInfo,
-      // orderId  交易id
+      // 交易id
       orderId: (state) => state.trade.payId,
     }),
     //默认收件人的信息计算出来

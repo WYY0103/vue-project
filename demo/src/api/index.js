@@ -94,10 +94,15 @@ export const reqShopInfo = ()=>requests({
     method:'get'
 });
 
-
 //提交订单接口
 export const reqSubmitOrder = (tradeNo,data)=>requests({
     url:`/order/auth/submitOrder?tradeNo=${tradeNo}`,
     method:'post',
     data
+});
+
+//获取支付信息接口
+export const reqPayInfo = (orderId)=>requests({
+    url:`/payment/weixin/createNative/${orderId}`,
+    method:'get'
 });

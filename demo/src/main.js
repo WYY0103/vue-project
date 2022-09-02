@@ -26,6 +26,9 @@ import Pagination from '@/components/Pagination';
 Vue.component(Pagination.name,Pagination);
 
 
+//将项目全部请求函数引入进来[分别暴露]  统一引入
+import  * as http from '@/api';
+
 
 
 // vue 挂载app
@@ -35,5 +38,6 @@ new Vue({
     render: h => h(App),
     beforeCreate(){
         Vue.prototype.$bus = this;
+        Vue.prototype.$http = http;
     }
 }).$mount('#app');
