@@ -6,7 +6,11 @@
     <Recommend></Recommend>
     <Rank></Rank>
     <Like></Like>
-    <Floor v-for="(floor,index) in floorList" :key="floor.id" :list="floor"></Floor>
+    <Floor
+      v-for="(floor, index) in floorList"
+      :key="floor.id"
+      :list="floor"
+    ></Floor>
     <Brand></Brand>
   </div>
 </template>
@@ -33,7 +37,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getFloorList");
-    this.$store.dispatch("getUserInfo");
   },
   computed: {
     ...mapState({

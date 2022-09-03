@@ -4,23 +4,22 @@
     <div class="register">
       <h3>
         注册新用户
-        <span class="go"
-          >我有账号，去 <a href="login.html" target="_blank">登陆</a>
-        </span>
+        <span class="go">我有账号，去 <a>登陆</a> </span>
       </h3>
+      <!-- 手机号 -->
       <div class="content">
         <label>手机号:</label>
         <input type="text" placeholder="请输入你的手机号" v-model="phone" />
         <span class="error-msg">错误提示信息</span>
       </div>
+      <!-- 验证码 -->
       <div class="content">
         <label>验证码:</label>
         <input type="text" placeholder="请输入验证码" v-model="code" />
-        <button style="width: 100px; height: 38px" @click="getCode">
-          获取验证码
-        </button>
+        <button style="height: 38px" @click="getCode">获取验证码</button>
         <span class="error-msg">错误提示信息</span>
       </div>
+      <!-- 登录密码 -->
       <div class="content">
         <label>登录密码:</label>
         <input
@@ -30,22 +29,21 @@
         />
         <span class="error-msg">错误提示信息</span>
       </div>
+      <!-- 确认密码 -->
       <div class="content">
         <label>确认密码:</label>
-        <input
-          type="password"
-          placeholder="请输入确认密码"
-          v-model="checkPassword"
-        />
+        <input type="password" placeholder="请输入确认密码" v-model="password1" />
         <span class="error-msg">错误提示信息</span>
       </div>
+      <!-- 勾选协议 -->
       <div class="controls">
-        <input name="m1" type="checkbox" v-model="agree" />
+        <input name="m1" type="checkbox" :checked="agree" />
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">错误提示信息</span>
       </div>
+      <!-- 注册按钮 -->
       <div class="btn">
-        <button @click="userRegister">完成注册</button>
+        <button @click="register">完成注册</button>
       </div>
     </div>
 
@@ -68,41 +66,50 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   name: "Register",
   data() {
     return {
-      // 收集手机号
+      //手机号
       phone: "",
-      // 验证码
+      //存储验证码
       code: "",
-      // 密码
+      //登录密码
       password: "",
-      // 确认密码
-      checkPassword: "",
-      // 是否勾选
+      //确认密码
+      password1: "",
+      //协议收集
       agree: true,
     };
   },
-  mounted() {},
-  computed: {},
   methods: {
+    //获取验证码按钮的回调
     async getCode() {
-      try {
-        const phone = this.phone;
-        phone && (await this.$store.dispatch("getCode", phone));
-        this.code = this.$store.state.register.code;
-      } catch (error) {}
-    },
-    async userRegister() {
-      const { phone, code, password, checkPassword } = this;
-      if (phone && code && password == checkPassword) {
+      const { phone } = this;
+      //先不处理表单验证业务
+      if (phone) {
         try {
-          await this.$store.dispatch("userRegister", { phone, code, password });
-          this.$router.push('/login');
+          //获取验证码成功
+          await this.$store.dispatch("getCode", phone);
+          //修改VC身上的code属性,让验证码自动展示
+          this.code = this.$store.state.user.code;
+        } catch (error) {}
+      }
+    },
+    //注册按钮的回调
+    async register() {
+      //解构出参数
+      const { phone, code, password, password1 } = this;
+      if (phone && code && password == password1) {
+        //通知vuex发请求，进行用户的注册
+        try {
+          //注册成功
+          await this.$store.dispatch("registerUser", { phone, code, password });
+          //让用户跳转到登录页面进行登录
+          this.$router.push("/login");
         } catch (error) {
-          alert(error.massage);
+          //注册失败
+          alert(error.message);
         }
       }
     },

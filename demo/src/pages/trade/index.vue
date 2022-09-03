@@ -19,7 +19,6 @@
           <span class="s3" v-show="user.isDefault == '1'">默认地址</span>
         </p>
       </div>
-
       <div class="line"></div>
       <h5 class="pay">支付方式</h5>
       <div class="address clearFix">
@@ -97,7 +96,6 @@
       <div class="price">
         应付金额:　<span>¥{{ tradeInfo.totalAmount }}.00</span>
       </div>
-      <!-- 默认的收件人信息 -->
       <div class="receiveInfo">
         寄送至:
         <span>{{ defaultUser.fullAddress }}</span>
@@ -140,25 +138,25 @@ export default {
       //全部用户信息isDefault = 0；
       this.address.forEach((item) => {
         item.isDefault = "0";
-      }); 
+      });
       user.isDefault = "1";
     },
     //提交订单
     async submitInfo() {
       //整理参数:交易编码
       let tradeNo = this.tradeInfo.tradeNo;
-      let tradeData = {
+      let data = {
         consignee: this.defaultUser.consignee, //付款人的名字
         consigneeTel: this.defaultUser.phoneNum, //付款人的手机号
         deliveryAddress: this.defaultUser.fullAddress, //付款人收货地址
         paymentWay: "ONLINE", //支付方式都是在线支付
         orderComment: this.msg, //买家留言
         orderDetailList: this.tradeInfo.detailArrayList, //购物车商品信息
-      }
+      };
 
       //发请求:提交订单
       try {
-        await this.$store.dispatch("submitInfo", { tradeNo, tradeData });
+        await this.$store.dispatch("submitInfo", { tradeNo, data });
         //将来提交订单成功【订单ID生成】，路由跳转pay页面，进行支付
         this.$router.push({ path: "/pay", query: { orderId: this.orderId } });
       } catch (error) {
@@ -168,11 +166,8 @@ export default {
   },
   computed: {
     ...mapState({
-      // 收件人信息
       address: (state) => state.trade.address,
-      // 商品清单  购物车里面的数据
       tradeInfo: (state) => state.trade.tradeInfo,
-      // 交易id
       orderId: (state) => state.trade.payId,
     }),
     //默认收件人的信息计算出来

@@ -84,7 +84,6 @@ const actions = {
             return Promise.reject(new Error(res.message));
         }
     },
-
     //退出登录的业务
     async logout({ commit }) {
         //发请求通知服务器销毁当前token【学生证】
@@ -96,7 +95,6 @@ const actions = {
             return Promise.reject(new Error(res.message));
         }
     }
-    
 };
 
 const getters = {
